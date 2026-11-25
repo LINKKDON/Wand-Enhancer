@@ -1,0 +1,1 @@
+const patchedAccount=${account}&&{...${account},subscription:${account}.subscription||${subscription}};return ${state}.account&&JSON.stringify(patchedAccount)===JSON.stringify(${state}.account)?${state}:{...${state},account:patchedAccount}

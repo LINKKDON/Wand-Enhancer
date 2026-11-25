@@ -11,6 +11,7 @@ namespace WandEnhancer.Core.Patching.Content
         private const string JavaScriptFileSearchPattern = "*.js";
         private const string IndexBundleFileName = "index.js";
         private const string AppBundleFilePrefix = "app-";
+        private const string OverlayBundleFilePrefix = "overlay-";
         private const string AppBundleFileSuffix = ".bundle.js";
 
         private readonly string _unpackedPath;
@@ -26,8 +27,11 @@ namespace WandEnhancer.Core.Patching.Content
 
         internal void Patch(IReadOnlyCollection<EPatchType> patchTypes)
         {
+            // Sorted so app bundles are patched before the overlay: the Pro
+            // entry matches any bundle, and the app copy is the one that matters.
             var items = Directory.EnumerateFiles(_unpackedPath, JavaScriptFileSearchPattern, SearchOption.TopDirectoryOnly)
                 .Where(IsCandidateBundleFile)
+                .OrderBy(file => Path.GetFileName(file), StringComparer.Ordinal)
                 .ToList();
 
             if (!items.Any())
@@ -104,6 +108,8 @@ namespace WandEnhancer.Core.Patching.Content
             string fileName = Path.GetFileName(filePath);
             return fileName.Equals(IndexBundleFileName, StringComparison.OrdinalIgnoreCase)
                 || (fileName.StartsWith(AppBundleFilePrefix, StringComparison.OrdinalIgnoreCase)
+                    && fileName.EndsWith(AppBundleFileSuffix, StringComparison.OrdinalIgnoreCase))
+                || (fileName.StartsWith(OverlayBundleFilePrefix, StringComparison.OrdinalIgnoreCase)
                     && fileName.EndsWith(AppBundleFileSuffix, StringComparison.OrdinalIgnoreCase));
         }
 

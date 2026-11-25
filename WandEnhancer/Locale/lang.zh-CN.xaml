@@ -30,6 +30,7 @@
     <s:String x:Key="pv_activate_pro">激活 WeMod Pro</s:String>
     <s:String x:Key="pv_devtools">按 F12 打开开发者工具</s:String>
     <s:String x:Key="pv_disable_updates">禁用更新</s:String>
+    <s:String x:Key="pv_disable_telemetry">禁用遥测</s:String>
     <s:String x:Key="pv_remote_web_panel_preview">启用远程访问（beta）</s:String>
     <s:String x:Key="pv_custom_scripts">自定义脚本</s:String>
     <s:String x:Key="pv_add_js_scripts">添加 .js</s:String>

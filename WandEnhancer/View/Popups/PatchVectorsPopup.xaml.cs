@@ -39,6 +39,7 @@ namespace WandEnhancer.View.Popups
             DisableUpdateBox.IsChecked = types.Contains(EPatchType.DisableUpdates);
             DevToolsHotkeyBox.IsChecked = types.Contains(EPatchType.DevToolsOnF12);
             RemoteWebPanelPreviewBox.IsChecked = types.Contains(EPatchType.RemoteWebPanelPreview);
+            DisableTelemetryBox.IsChecked = types.Contains(EPatchType.DisableTelemetry);
             AutoApplyBox.IsChecked = saved.AutoApplyAfterUpdate;
 
             var match = (StrategyComboBox.ItemsSource as System.Collections.Generic.IEnumerable<StrategyItem>)
@@ -107,7 +108,8 @@ namespace WandEnhancer.View.Popups
         private void OnPatchButtonClick(object sender, RoutedEventArgs e)
         {
             if (ActivateProBox.IsChecked != true && DisableUpdateBox.IsChecked != true &&
-                DevToolsHotkeyBox.IsChecked != true && RemoteWebPanelPreviewBox.IsChecked != true)
+                DevToolsHotkeyBox.IsChecked != true && RemoteWebPanelPreviewBox.IsChecked != true &&
+                DisableTelemetryBox.IsChecked != true)
             {
                 return;
             }
@@ -131,6 +133,11 @@ namespace WandEnhancer.View.Popups
             if (RemoteWebPanelPreviewBox.IsChecked == true)
             {
                 result.Add(EPatchType.RemoteWebPanelPreview);
+            }
+
+            if (DisableTelemetryBox.IsChecked == true)
+            {
+                result.Add(EPatchType.DisableTelemetry);
             }
 
             _onApply(new PatchConfig
