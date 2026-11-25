@@ -40,10 +40,11 @@ namespace WandEnhancer.Core
                     PerfTelemetrySamplingPatch(),
 
                     // The analytics frame exists in both the app and overlay
-                    // bundles. Each entry patches the first bundle still
-                    // containing the anchor, so the two cover both.
+                    // bundles, so two entries cover both. The second is optional:
+                    // the overlay bundle may not exist, and a single-file fixture
+                    // can only satisfy one entry.
                     AnalyticsFramePatch(),
-                    AnalyticsFramePatch(),
+                    AnalyticsFramePatch(isOptional: true),
                 },
 
                 // The remote panel is wired by RemotePanelInjector, not by JS patches.
@@ -231,7 +232,7 @@ namespace WandEnhancer.Core
             };
         }
 
-        private static PatchEntry AnalyticsFramePatch()
+        private static PatchEntry AnalyticsFramePatch(bool isOptional = false)
         {
             return new PatchEntry
             {
@@ -239,7 +240,7 @@ namespace WandEnhancer.Core
                 SearchHints = new[] { "wemod-analytics-frame" },
                 CapabilityHints = new[] { "wemod-analytics-frame" },
                 CandidateFileNames = null,
-                IsOptional = false,
+                IsOptional = isOptional,
                 Locate = cursor =>
                 {
                     int anchor = cursor.IndexOf("\"wemod-analytics-frame\"");
