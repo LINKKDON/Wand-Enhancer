@@ -28,3 +28,12 @@ jobs:
       - name: Build and test
         shell: pwsh
         run: ./build.ps1 -Configuration Release
+
+      - name: Upload built app
+        uses: actions/upload-artifact@v4
+        with:
+          name: WandEnhancer
+          if-no-files-found: error
+          path: |
+            WandEnhancer/bin/Release/WandEnhancer.exe
+            WandEnhancer/bin/Release/WandEnhancer.exe.config
